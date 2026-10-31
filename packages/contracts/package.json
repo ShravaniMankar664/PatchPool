@@ -1,0 +1,34 @@
+{
+  "name": "contracts",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "hardhat node",
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "typecheck:deployment": "tsc --noEmit --target ES2020 --module commonjs --moduleResolution node --esModuleInterop --strict --skipLibCheck deploy.config.ts scripts/deploy.ts scripts/verify.ts scripts/preflight.ts scripts/finalize.ts scripts/recordBrowserDeployment.ts scripts/lib/writeDeployment.ts scripts/lib/deploymentPreflight.ts scripts/lib/deploymentSafety.ts hardhat.config.ts test/deploymentSafety.test.ts",
+    "lint": "solhint 'contracts/**/*.sol'",
+    "preflight:testnet": "hardhat run scripts/preflight.ts --network testnet",
+    "record:testnet": "hardhat run scripts/recordBrowserDeployment.ts --network testnet",
+    "preflight:mainnet": "hardhat run scripts/preflight.ts --network mainnet",
+    "deploy:testnet": "hardhat run scripts/deploy.ts --network testnet",
+    "deploy:mainnet": "hardhat run scripts/deploy.ts --network mainnet",
+    "verify:testnet": "hardhat run scripts/verify.ts --network testnet",
+    "verify:mainnet": "hardhat run scripts/verify.ts --network mainnet",
+    "finalize:testnet": "hardhat run scripts/finalize.ts --network testnet",
+    "finalize:mainnet": "hardhat run scripts/finalize.ts --network mainnet",
+    "clean": "hardhat clean"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "~5.0.2"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@types/prompt-sync": "^4.2.3",
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.22.10",
+    "prompt-sync": "^4.2.0",
+    "solhint": "^5.0.3",
+    "typescript": "^5.5.4"
+  }
+}

@@ -1,0 +1,25 @@
+name: PatchPool checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run --workspace contracts test
+      - run: npm run --workspace contracts compile
+      - run: npm run typecheck:deployment
+      - run: npx tsc --noEmit -p packages/frontend/tsconfig.json
+      - run: npm run lint
+      - run: npm run --workspace frontend build
