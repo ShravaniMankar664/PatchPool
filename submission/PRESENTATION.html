@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PatchPool — MST Blockchain Buildathon #2</title>
+<style>
+@page { size: 13.333in 7.5in; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: #09131f; color: #eef5fb; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+.slide { width: 13.333in; height: 7.5in; padding: .62in .82in; position: relative; overflow: hidden; page-break-after: always; background: radial-gradient(ellipse at 92% 0%, #124e54 0, transparent 40%), linear-gradient(135deg,#0b1825 0%,#102536 56%,#0d1a27 100%); }
+.slide:nth-child(even) { background: radial-gradient(ellipse at 0% 100%, #21463f 0, transparent 38%), linear-gradient(135deg,#101e2b,#0c1722); }
+.eyebrow { color: #7ee0bd; font-size: 11pt; font-weight: 750; letter-spacing: .16em; text-transform: uppercase; }
+h1 { font-size: 54pt; line-height: 1.02; letter-spacing: -.045em; margin: .28in 0 .18in; max-width: 9in; }
+h2 { font-size: 29pt; letter-spacing: -.03em; margin: .18in 0 .24in; }
+h3 { color: #81e3bd; font-size: 16pt; margin: 0 0 .08in; }
+p, li { color: #c4d2dc; font-size: 16pt; line-height: 1.38; }
+.small { font-size: 11pt; line-height: 1.42; color: #9fb4c4; }
+.accent { color: #83e5bd; }
+.subtitle { max-width: 8.6in; font-size: 21pt; line-height: 1.35; color: #c7d7e1; }
+.rule { width: .7in; height: 4px; background: #7ee0bd; margin: .3in 0; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: .22in; margin-top: .2in; }
+.card { background: #142b3a; border: 1px solid #2a4a58; border-radius: 15px; padding: .22in .26in; }
+.card p, .card li { font-size: 13pt; margin: .06in 0; }
+.flow { display: grid; grid-template-columns: repeat(5,1fr); gap: .12in; margin: .35in 0; }
+.step { background: #173343; border-radius: 12px; padding: .18in; min-height: 1.55in; border-top: 3px solid #72dcb6; }
+.step strong { color: #fff; display:block; font-size: 13pt; margin-bottom:.08in; }
+.step span { color: #b9cbd6; font-size: 11pt; line-height:1.35; display:block; }
+.metric { font-size: 22pt; font-weight: 750; color: #f4fbff; }
+.address { font: 12pt ui-monospace, SFMono-Regular, Menlo, monospace; color: #9ae8c7; overflow-wrap:anywhere; }
+.tag { display:inline-block; background:#173e3d; color:#93edc5; border:1px solid #347365; border-radius:100px; padding:.06in .14in; font-size:10pt; font-weight:700; margin: .08in .06in .04in 0; }
+.footer { position:absolute; bottom:.27in; left:.82in; right:.82in; display:flex; justify-content:space-between; color:#77909f; font-size:9pt; border-top:1px solid #29404d; padding-top:.1in; }
+.note { border-left:4px solid #f1bd62; padding:.08in .18in; background:#2d2a24; color:#f4d89e; font-size:12pt; line-height:1.35; }
+.columns { display:grid; grid-template-columns:1fr 1fr; gap:.35in; }
+.big-number { color:#78dfba; font-size:44pt; font-weight:800; line-height:1; }
+.check li { list-style:none; position:relative; padding-left:.32in; margin:.12in 0; }
+.check li:before { content:"✓"; position:absolute; left:0; color:#78dfba; font-weight:800; }
+@media screen { .slide { margin: 24px auto; box-shadow: 0 14px 50px #0009; } }
+</style></head>
+<body>
+<section class="slide">
+  <div class="eyebrow">MST Blockchain Buildathon #2 · Round 2 MVP</div>
+  <h1>Patch<span class="accent">Pool</span></h1>
+  <div class="rule"></div>
+  <p class="subtitle">Fund the fix. Lock the commit. Release the reward.</p>
+  <p style="margin-top:.45in;max-width:8in">An on-chain escrow and review workflow that links a software-fix bounty to a specific code submission, a human reviewer, and a recorded settlement.</p>
+  <div style="margin-top:.38in"><span class="tag">MST MAINNET · 4646</span><span class="tag">VERIFIED DEPLOYMENT</span><span class="tag">LOCAL MVP TESTS PASS</span></div>
+  <p class="small" style="margin-top:.32in">Team lead: Shravani Mankar · Team member listed in project brief: Vedika Ukirde</p>
+  <div class="footer"><span>PatchPool</span><span>01 / 08</span></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">The problem</div><h2>Funding, review, and payment lose their link</h2>
+  <p style="max-width:10.7in">Software-fix bounties often coordinate the task, source revision, reviewer decision, and reward across different tools. Participants may struggle to see what was reviewed, who was authorized to decide, and where escrow went.</p>
+  <div class="grid">
+    <div class="card"><h3>Before PatchPool</h3><p>Task board → code host → informal review → separate payment</p><p class="small">Records are fragmented, and payment conditions may be enforced manually.</p></div>
+    <div class="card"><h3>PatchPool's scope</h3><p>Link the funded task to a committed revision, evidence digest, reviewer decision, and settlement recipient.</p><p class="small">PatchPool complements Git hosting and human review; it does not replace them.</p></div>
+  </div>
+  <div class="footer"><span>Problem and intended use</span><span>02 / 08</span></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">The workflow</div><h2>One contract-governed bounty lifecycle</h2>
+  <div class="flow">
+    <div class="step"><strong>01 · Sponsor</strong><span>Create a task, assign reviewer, fund escrow; other sponsors may add funds.</span></div>
+    <div class="step"><strong>02 · Contributor</strong><span>Submit Git commit ID, evidence digest, and payout address.</span></div>
+    <div class="step"><strong>03 · Reviewer</strong><span>One assigned human reviews the specific submission and approves or rejects.</span></div>
+    <div class="step"><strong>04 · Settlement</strong><span>Approved reward goes to the stored payee; release can be retried.</span></div>
+    <div class="step"><strong>05 · Expiry</strong><span>Each eligible contributor claims their own refund after deadline + 7 days.</span></div>
+  </div>
+  <div class="note">The smart contract enforces escrow, address roles, and settlement. A human reviewer judges code quality.</div>
+  <div class="footer"><span>Implemented lifecycle</span><span>03 / 08</span></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">Architecture</div><h2>Lean stack, clear trust boundaries</h2>
+  <div class="columns">
+    <div>
+      <div class="card"><h3>Application</h3><p>Next.js · React · TypeScript</p><p>Wagmi · Viem · TanStack Query</p><p>BridgeKey-identified injected wallet</p><p class="small">Mainnet production chain list is 4646 only. Every write needs normal wallet confirmation.</p></div>
+      <div class="card" style="margin-top:.18in"><h3>Read path</h3><p>Browser → same-origin bounded JSON-RPC proxy → MST Mainnet RPC</p><p class="small">Proxy forwards allowlisted reads; transaction broadcast and signing methods are rejected.</p></div>
+    </div>
+    <div>
+      <div class="card"><h3>Contract</h3><p>Solidity 0.8.20 · OpenZeppelin ReentrancyGuard · Hardhat</p><p>Per-wallet contribution accounting, submission records, reviewer decision, payee-bound payout, individual refunds.</p></div>
+      <div class="card" style="margin-top:.18in"><h3>Evidence boundary</h3><p>Task JSON is public and hash-bound. Git object ID and evidence digest identify submitted values.</p><p class="small">Evidence files stay off-chain. A matching digest proves byte equality only—not truth or correctness.</p></div>
+    </div>
+  </div>
+  <div class="footer"><span>System architecture</span><span>04 / 08</span></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">Contract guarantees and limits</div><h2>Rules are enforced at the address level</h2>
+  <div class="columns">
+    <div class="card"><h3>Enforced</h3><ul class="check"><li>Creator and contributors cannot submit or receive payout.</li><li>Reviewer cannot fund, submit, or receive payout.</li><li>Approval is bound to one submission ID.</li><li>Reentrancy-protected payout and pull refunds.</li><li>No refund after approval; eligible claims begin after seven days.</li></ul></div>
+    <div class="card"><h3>Not guaranteed</h3><ul><li>Code quality, tests, or evidence truth.</li><li>Distinct human identities behind addresses.</li><li>Reviewer impartiality; one reviewer only.</li><li>Quorum, arbitration, or dispute resolution.</li><li>Independent professional audit.</li></ul></div>
+  </div>
+  <div class="footer"><span>Security model</span><span>05 / 08</span></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">Production deployment</div><h2>Verified on MST Mainnet</h2>
+  <div class="grid">
+    <div class="card"><div class="small">NETWORK</div><div class="metric">MST Mainnet · 4646</div><div class="small" style="margin-top:.18in">Deployment block</div><div class="metric">21,783,933</div></div>
+    <div class="card"><div class="small">CONTRACT ADDRESS</div><p class="address">0x707004013b56e36eE458966d928539ede6166338</p><div class="small" style="margin-top:.16in">Runtime Keccak-256</div><p class="address" style="font-size:9pt">0x3fd747f5a8d30110c3c75bf33d039dca659b07cd6b064b52cb861f25b5419aaf</p></div>
+  </div>
+  <p style="font-size:13pt;margin-top:.23in">Successful deployment transaction: <span class="address">0xf1737317b461a21a72784232e7987adf95728e018566f030b3eb36b4623a59ec</span></p>
+  <p class="small">Read-only RPC check returned chain 0x1226, successful receipt at the recorded block, and runtime code matching the registry hash. Historical Legacy Testnet is preserved separately and is not a production target.</p>
+  <div class="footer"><span>Contract deployment evidence</span><span>06 / 08</span></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">Verification status</div><h2>What has been tested—and what has not</h2>
+  <div class="grid">
+    <div class="card"><div class="big-number">62</div><h3>Contract tests</h3><p>Creation, shared funding, address roles, deadlines, review, payout, refunds, and reentrancy regressions.</p></div>
+    <div class="card"><div class="big-number">4 + 5</div><h3>RPC and browser checks</h3><p>Four proxy guard tests and five local Playwright scenarios on disposable Hardhat. The latest run passed all five scenarios.</p></div>
+    <div class="card"><h3>Build and types</h3><p>Frontend build, frontend typecheck, deployment typecheck, and lint all passed.</p></div>
+    <div class="card"><h3>Live wallet status</h3><p>BridgeKey connection/signing and live bounty actions have not been checked. No bounty has been created or funded.</p></div>
+  </div>
+  <div class="note" style="margin-top:.2in">Local E2E transactions are simulated engineering evidence. They are not Mainnet activity.</div>
+  <div class="footer"><span>Test evidence and honest boundaries</span><span>07 / 08</span></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">Next steps and impact</div><h2>Ready for review; live actions stay gated</h2>
+  <p style="max-width:10.4in">PatchPool gives maintainers and sponsors an inspectable way to pre-commit task terms, escrow, review authority, and settlement rules for software fixes.</p>
+  <div class="grid">
+    <div class="card"><h3>For evaluation</h3><p>Review the source, verify the deployment, and watch the clearly labeled local lifecycle demo.</p></div>
+    <div class="card"><h3>Before public submission</h3><p>Publish the reviewed source, confirm a hosted app, record a 2–3 minute video, and test every link from a signed-out browser.</p></div>
+  </div>
+  <p class="small" style="margin-top:.28in">Live BridgeKey signing, any Mainnet bounty transaction, public hosting, and hackathon submissions require separate manual action/approval. No finalist status is claimed.</p>
+  <p class="small">Repository draft: github.com/ShravaniMankar664/PatchPool · Verified contract: MST Mainnet 4646</p>
+  <div class="footer"><span>PatchPool · MST Blockchain Buildathon #2</span><span>08 / 08</span></div>
+</section>
+</body></html>

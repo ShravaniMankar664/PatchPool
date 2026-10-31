@@ -1,0 +1,36 @@
+node_modules/
+.env
+.env.local
+.env*.local
+
+# hardhat
+artifacts/
+cache/
+typechain-types/
+coverage/
+coverage.json
+playwright-report/
+test-results/
+
+# next.js
+.next/
+out/
+build/
+
+# turbo
+.turbo/
+
+# misc
+.DS_Store
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local secrets and wallet files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
